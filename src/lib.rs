@@ -1,3 +1,6 @@
+#[cfg(feature = "sensor")]
+pub mod sensor;
+
 pub fn add(left: usize, right: usize) -> usize {
     left + right
 }
