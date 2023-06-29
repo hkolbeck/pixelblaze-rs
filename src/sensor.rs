@@ -21,14 +21,14 @@ const DISC_HEADER_BYTES: usize = 4 + // Packet type
 const FRAME_BYTES: usize = DISC_HEADER_BYTES + SENSOR_DATA_BYTES;
 
 
-struct AudioData {
+pub struct AudioData {
     pub freq_buckets: [u16; 32],
     pub energy_avg: u16,
     pub max_freq_magnitude: u16,
     pub max_freq: u16,
 }
 
-struct SensorClient {
+pub struct SensorClient {
     sender_id: [u8; 4],
     targets: HashSet<SocketAddr>,
     frame_type: [u8; 4],

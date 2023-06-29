@@ -1,0 +1,13 @@
+[package]
+name = "pixelblaze-audio-reader"
+authors = ["Hannah Kolbeck <hskolbeck@gmail.com>"]
+version = "0.1.0"
+edition = "2021"
+description = "Reads audio from a device and sends analysis to pixelblazes"
+
+[dependencies]
+pixelblaze-rs = {path = "../..", features = ["sensor"]}
+
+cpal = "0.15.2"
+rubato = "0.14.0"
+clap = { version = "4.3.8", features = ["derive"] }
