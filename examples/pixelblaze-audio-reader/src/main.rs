@@ -32,6 +32,8 @@ struct Cli {
 ///! shipping the analysis off to a pixelblaze. It's tested on OSX, if you get it working on
 ///! other platforms please let me know! It has not been tested with multiple targets (yet).
 ///!
+///! If there are multiple input devices, you'll be prompted to select one. This can usually
+///! find the builtin mic if one exists.
 ///! In order to ingest the active audio from your computer, you'll need to create a loopback
 ///! audio device. The process for this varies by OS:
 ///!
@@ -43,15 +45,15 @@ struct Cli {
 ///! Windows/Linux: Contributions welcome
 ///!
 ///! Running this example:
-///!  1. Set up the loopback audio device as outlined above
+///!  1. Set up the loopback audio device as outlined above (optional)
 ///!  2. Power on your Pixelblaze and select a sound-reactive pattern
 ///!  3. Start this program. In the pixelblaze-audio-reader directory, open a terminal and execute:
 ///!       `cargo run --package pixelblaze-audio-reader --bin pixelblaze-audio-reader --release 192.168.4.1:1889`
 ///!     Replacing 192.168.4.1 with the IP of your Pixelblaze, be sure to include the port number.
-///!  4. You'll be prompted to choose an input device, select the loopback device you set up in step
-///!     (1). If it does not appear, the CPAL docs are likely a good first debugging tool.
+///!  4. You'll be prompted to choose an input device, select the mic or loopback device you set up
+///!     in step (1). If it does not appear, the CPAL docs are likely a good first debugging tool.
 ///!  5. If everything is working smoothly, you should start seeing debugging printouts and the
-///      Pixelblaze should begin using the frequency analysis data.
+///!     Pixelblaze should begin using the frequency analysis data.
 ///!     - If it fails to reach your Pixelblaze, make sure you're on the same network, have the
 ///!       right IP, and are including the port in the program invocation.
 ///!     - If the program seems to be gathering data and successfully sending it off, but the
