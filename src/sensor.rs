@@ -1,8 +1,8 @@
 use std::collections::HashSet;
 use std::io::{Cursor, Write};
+use std::io::Result;
 use std::net::{Ipv4Addr, SocketAddr, SocketAddrV4, UdpSocket};
 use std::time::SystemTime;
-use std::io::Result;
 
 const SENSOR_DATA_BYTES: usize = 32 * 2 + //Frequency buckets
     2 + // Energy average
@@ -22,7 +22,7 @@ const FRAME_BYTES: usize = DISC_HEADER_BYTES + SENSOR_DATA_BYTES;
 
 
 pub struct AudioData {
-    pub freq_buckets: [u16; 32],
+    pub freq_buckets: Vec<u16>,
     pub energy_avg: u16,
     pub max_freq_magnitude: u16,
     pub max_freq: u16,
@@ -92,7 +92,9 @@ impl SensorClient {
         assert_eq!(cursor.position(), FRAME_BYTES as u64);
 
         let frame = cursor.into_inner();
-        let socket = UdpSocket::bind(SocketAddrV4::new(Ipv4Addr::LOCALHOST, 0))?;
+        let socket = UdpSocket::bind(
+            SocketAddrV4::new(Ipv4Addr::new(0, 0, 0, 0), 0)
+        )?;
 
         for target in &self.targets {
             socket.connect(target)?;
