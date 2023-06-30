@@ -109,9 +109,19 @@ fn main() {
 
     let mut frame_count: u64 = 0;
     let mut last_frame = Instant::now();
-
+    let mut padding_buf = Vec::new();
     let to_spectrum_fn = move |audio: &[f32], _: &InputCallbackInfo| {
-        assert_eq!(audio.len().count_ones(), 1);
+        let audio = if audio.len().count_ones() == 1 {
+            audio
+        } else {
+            // The default windows machinery doesn't always send a full buffer.
+            // Might as well pad instead of panicking           let new_len = 1_usize << (usize::BITS - audio.len().leading_zeros() + 1);
+            let mut padding = vec![0.0_f32; new_len - audio.len()];
+            padding_buf.clear();
+            padding_buf.copy_from_slice(audio);
+            padding_buf.append(&mut padding);
+            &padding_buf[..]
+        };
 
         let hann_window = hann_window(audio);
         let latest_spectrum = samples_fft_to_spectrum(
