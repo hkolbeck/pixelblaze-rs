@@ -115,10 +115,11 @@ fn main() {
             audio
         } else {
             // The default windows machinery doesn't always send a full buffer.
-            // Might as well pad instead of panicking           let new_len = 1_usize << (usize::BITS - audio.len().leading_zeros() + 1);
+            // Might as well pad instead of panicking
+            let new_len = audio.len().next_power_of_two();
             let mut padding = vec![0.0_f32; new_len - audio.len()];
             padding_buf.clear();
-            padding_buf.copy_from_slice(audio);
+            padding_buf.extend_from_slice(audio);
             padding_buf.append(&mut padding);
             &padding_buf[..]
         };
